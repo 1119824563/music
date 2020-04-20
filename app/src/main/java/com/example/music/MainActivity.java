@@ -145,6 +145,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, PlayerActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.network:
+
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

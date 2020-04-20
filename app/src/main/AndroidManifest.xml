@@ -30,6 +30,10 @@
         </activity>
 
         <activity android:name=".MainActivity"/>
+        <activity android:name=".ui.loginActivity"/>
+        <activity android:name=".ui.registerActivity"/>
+        <activity android:name=".ui.findpawActivity"/>
+
         <activity android:name=".ui.PlayerActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
 

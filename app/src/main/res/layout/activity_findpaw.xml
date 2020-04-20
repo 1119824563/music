@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/img_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -40,6 +41,15 @@
     <Button
         android:id="@+id/find_paw"
         android:text="确定"
+        android:background="#1E90FF"
+        android:textSize="24sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/find_back"
+        android:text="返回"
         android:background="#1E90FF"
         android:textSize="24sp"
         android:layout_gravity="center"

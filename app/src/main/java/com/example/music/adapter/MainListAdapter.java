@@ -42,6 +42,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
         holder.tv_music_album.setText(music.getAlbum());
         holder.tv_music_time.setText(music.getDuration());
 
+        //跳到播放界面
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

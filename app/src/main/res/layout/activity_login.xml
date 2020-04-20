@@ -60,6 +60,7 @@
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/tv_register"
+            android:clickable="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:layout_width="wrap_content"
@@ -68,6 +69,7 @@
         <!--layout_weight="1" layout_width="0dp"实现均分效果-->
         <TextView
             android:id="@+id/tv_find_psw"
+            android:clickable="true"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"

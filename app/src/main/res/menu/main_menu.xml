@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
+        android:id="@+id/network"
+       android:icon="@drawable/network"
+        app:showAsAction="always"
+        tools:ignore="MenuTitle" />
+
+    <item
         android:id="@+id/menu_scan"
         android:icon="@drawable/img_main_scan"
         app:showAsAction="always"
