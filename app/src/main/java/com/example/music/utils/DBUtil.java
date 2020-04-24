@@ -6,17 +6,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 public class DBUtil
 {
 
-    private  String name=null;
+   /* private  String name=null;
     private  String pass=null;
 
     public DBUtil(String m,String p){
         this.name=m;
         this.pass=p;
-    }
+    }*/
     private static Connection getSQLConnection(String ip, String user, String pwd, String db)
     {
         Connection con = null;
@@ -34,14 +33,14 @@ public class DBUtil
         return con;
     }
 
-    public String QuerySQL()
+    //登录
+    public String QuerySQL(String name,String pass)
     {
-        String result = "";
+        String result = "0";
         try
         {
             Connection conn= getSQLConnection("13.94.60.177", "sa", "jinyintao159.", "music");
             String sql = "select Username from usename_password where Username=? and  Password=?";
-
             PreparedStatement stat = conn.prepareStatement(sql);
             stat.setString(1, name);
             stat.setString(2, pass);
@@ -49,9 +48,6 @@ public class DBUtil
             while (rs.next())
             {
                 result= "1" ;
-                String s1 = rs.getString("Username");
-                result += s1 + "  -  "  + "\n";
-                System.out.println(s1 + "  -  " );
             }
             rs.close();
             conn.close();
@@ -62,7 +58,33 @@ public class DBUtil
         }
         return result;
     }
-    /*public static String testSQL()
+
+    //找回密码
+    public String FindSQL(String name,String pass)
+    {
+        String result = "0";
+        try
+        {
+            Connection conn= getSQLConnection("13.94.60.177", "sa", "jinyintao159.", "music");
+            String sql = "select Password from usename_password where Username=?";
+            PreparedStatement stat = conn.prepareStatement(sql);
+            stat.setString(1, name);
+            ResultSet rs = stat.executeQuery();
+            while (rs.next())
+            {
+                result= "1" ;
+            }
+            rs.close();
+            conn.close();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            result += "查询数据异常!" + e.getMessage();
+        }
+        return result;
+    }
+
+    /*public static String QuerySQL()
     {
         String result = "字段1  -  字段2\n";
         try
@@ -73,7 +95,6 @@ public class DBUtil
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next())
             {
-                // <code>ResultSet</code
                 String s1 = rs.getString("Username");
                 String s2 = rs.getString("Password");
                 result += s1 + "  -  " + s2 + "\n";
@@ -85,7 +106,7 @@ public class DBUtil
         } catch (SQLException e)
         {
             e.printStackTrace();
-            //result += "查询数据异常!" + e.getMessage();
+            result += "查询数据异常!" + e.getMessage();
         }
         return result;
         //return bool;
@@ -93,8 +114,9 @@ public class DBUtil
 
     public static void main(String[] args)
     {
-        DBUtil db=new DBUtil("1","123");
-        db.QuerySQL();
+        /*DBUtil db=new DBUtil();
+        //db.QuerySQL();
+        db.QuerySQL("1","123");*/
     }
 }
 

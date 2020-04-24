@@ -18,8 +18,6 @@ android {
         }
     }
     compileOptions{
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -35,5 +33,7 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'com.github.bifan-wei:LrcView:V1.3'
     implementation files('libs/pldroid-player-2.1.9.jar')
-    implementation files('libs/jtds-1.2.7.jar')
+    implementation files('libs\\jtds-1.2.7.jar')
+    implementation files('libs\\sqljdbc4.jar')
+
 }

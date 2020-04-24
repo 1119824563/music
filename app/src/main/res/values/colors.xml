@@ -3,4 +3,8 @@
     <color name="colorPrimary">#C20C0C</color>
     <color name="colorPrimaryDark">#C20C0C</color>
     <color name="colorAccent">#C20C0C</color>
+    <color name="color1">#99CCFF</color>
+    <color name="color2">#00FF00</color>
+    <color name="color3">#FF66FF</color>
+
 </resources>

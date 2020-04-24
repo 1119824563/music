@@ -1,8 +1,9 @@
 package com.example.music;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,7 +19,6 @@ import com.example.music.adapter.MainListAdapter;
 import com.example.music.impl.OnMusicService;
 import com.example.music.manager.MusicManager;
 import com.example.music.model.Music;
-import com.example.music.ui.PlayerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +32,23 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressDialog mProgressDialog;
 
+    private AlertDialog alertDialog2;
+    private int themeType=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+        themeType = getSharedPreferences("theme", MODE_PRIVATE).getInt("themeType", 0);
+        if(themeType == 0){
+            setTheme(R.style.AppTheme);
+        }
+        else if(themeType == 1){
+            setTheme(R.style.AppTheme1);
+        }else if(themeType == 2){
+            setTheme(R.style.AppTheme2);
+        }else if(themeType == 3){
+            setTheme(R.style.AppTheme3);
+        }
         setContentView(R.layout.activity_main);
         initView();
     }
@@ -140,10 +153,8 @@ public class MainActivity extends AppCompatActivity {
                     MusicManager.getInstance().getClientImpl().startScanMusic();
                 }
                 break;
-            case R.id.menu_player:
-                //跳转到播放界面
-                Intent intent = new Intent(this, PlayerActivity.class);
-                startActivity(intent);
+            case R.id.menu_skin:
+                changeskin();
                 break;
             case R.id.network:
 
@@ -151,6 +162,38 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    //改变颜色
+    public void changeskin(){
+        final String[] items = {"红色", "蓝色", "绿色", "粉色"};
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setTitle("选择颜色");
+        alertBuilder.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                themeType=i;
+                getSharedPreferences("theme", MODE_PRIVATE).edit().putInt("themeType", themeType).commit();
+            }
+        });
+
+        alertBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                recreate();
+                alertDialog2.dismiss();
+            }
+        });
+
+        alertBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                alertDialog2.dismiss();
+            }
+        });
+
+        alertDialog2 = alertBuilder.create();
+        alertDialog2.show();
+    };
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

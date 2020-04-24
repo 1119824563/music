@@ -16,8 +16,8 @@
         tools:ignore="MenuTitle" />
 
     <item
-        android:id="@+id/menu_player"
-        android:icon="@drawable/img_main_play"
+        android:id="@+id/menu_skin"
+        android:icon="@drawable/img_main_skin"
         app:showAsAction="always"
         tools:ignore="MenuTitle" />
 </menu>

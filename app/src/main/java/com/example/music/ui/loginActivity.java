@@ -3,15 +3,19 @@ package com.example.music.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.music.MainActivity;
 import com.example.music.R;
+import com.example.music.utils.DBUtil;
 
 public class loginActivity extends AppCompatActivity{
 
@@ -21,8 +25,6 @@ public class loginActivity extends AppCompatActivity{
     private TextView met_user_name;
     private TextView met_psw;
     private Handler handler;
-    private String user_tv;
-    private String password_tv;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -39,8 +41,8 @@ public class loginActivity extends AppCompatActivity{
         mtv_register.setOnClickListener(getRegister());
         mtv_find_psw.setOnClickListener(getFind_psw());
 
-       /* WorkThread wt=new WorkThread();
-        wt.start();*/
+        WorkThread wt=new WorkThread();
+        wt.start();
     }
 
     //登录
@@ -50,21 +52,18 @@ public class loginActivity extends AppCompatActivity{
             @Override
             public void onClick(View v)
             {
-                /*user_tv=met_user_name.getText().toString().trim();
-                password_tv=met_psw.getText().toString().trim();
+                String s= met_psw.getText().toString();//获取页面密码
+                String sy=met_user_name.getText().toString();//获取页面用户名
                 Message m=handler.obtainMessage();//获取事件
                 Bundle b=new Bundle();
-                b.putString("name",user_tv);
-                b.putString("pass",password_tv);//以键值对形式放进 Bundle中
+                b.putString("pass",s);//以键值对形式放进 Bundle中
+                b.putString("name",sy);
                 m.setData(b);
-                m.what=0;
-                handler.sendMessage(m);//把信息放到通道中*/
-                startActivity(new Intent(loginActivity.this, MainActivity.class));
-                finish();
-
+                handler.sendMessage(m);//把信息放到通道中
             }
         };
     }
+
 
     //注册
     private View.OnClickListener getRegister(){
@@ -92,31 +91,33 @@ public class loginActivity extends AppCompatActivity{
         };
     }
 
-    /*class WorkThread extends  Thread{
+    class WorkThread extends  Thread{
         @Override
         public  void run(){
+            super.run();
             Looper.prepare();
             handler=new Handler(){
                 @Override
                 public  void handleMessage(Message m){
-                    switch (m.what) {
-                        case 0:
+                            super.handleMessage(m);
                             Bundle b = m.getData();//得到与信息对用的Bundle
                             String name = b.getString("name");//根据键取值
                             String pass = b.getString("pass");
-                            DBUtil db= new DBUtil(name,pass);
-                            String ret = db.QuerySQL();//得到返回值
+                            DBUtil db= new DBUtil();
+                            String ret = db.QuerySQL(name,pass);//得到返回值
                             if (ret.equals("1"))//为1，页面跳转，登陆成功
                             {
+                                startActivity(new Intent(loginActivity.this, MainActivity.class));
                                 Toast.makeText(loginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                                finish();
                                 return;
                             }
-                            Toast.makeText(loginActivity.this, "错误", Toast.LENGTH_SHORT).show();
-                            break;
-                    }
+                            else if(ret.equals("0")){
+                                Toast.makeText(loginActivity.this, "账号或密码错误", Toast.LENGTH_SHORT).show();
+                            }
                 }
             };
             Looper.loop();//Looper循环，通道中有数据执行，无数据堵塞
         }
-    }*/
+    }
 }
