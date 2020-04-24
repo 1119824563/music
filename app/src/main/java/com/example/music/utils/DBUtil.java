@@ -60,7 +60,7 @@ public class DBUtil
     }
 
     //找回密码
-    public String FindSQL(String name,String pass)
+    public String FindSQL(String name)
     {
         String result = "0";
         try
@@ -72,7 +72,8 @@ public class DBUtil
             ResultSet rs = stat.executeQuery();
             while (rs.next())
             {
-                result= "1" ;
+                result= rs.getString("Password");
+                //System.out.println(result);
             }
             rs.close();
             conn.close();
@@ -114,9 +115,10 @@ public class DBUtil
 
     public static void main(String[] args)
     {
-        /*DBUtil db=new DBUtil();
+        //DBUtil db=new DBUtil();
         //db.QuerySQL();
-        db.QuerySQL("1","123");*/
+        //db.QuerySQL("1","123");
+        //db.FindSQL("1");
     }
 }
 

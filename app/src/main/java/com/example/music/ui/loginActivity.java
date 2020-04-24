@@ -1,11 +1,14 @@
 package com.example.music.ui;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,6 +31,13 @@ public class loginActivity extends AppCompatActivity{
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        //去除标题
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
+        //去除手机状态栏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 
         mbtn_login=findViewById(R.id.btn_login);
@@ -53,7 +63,7 @@ public class loginActivity extends AppCompatActivity{
             public void onClick(View v)
             {
                 String s= met_psw.getText().toString();//获取页面密码
-                String sy=met_user_name.getText().toString();//获取页面用户名
+                String sy=met_user_name.getText().toString();//获取页面账号
                 Message m=handler.obtainMessage();//获取事件
                 Bundle b=new Bundle();
                 b.putString("pass",s);//以键值对形式放进 Bundle中
@@ -113,11 +123,18 @@ public class loginActivity extends AppCompatActivity{
                                 return;
                             }
                             else if(ret.equals("0")){
-                                Toast.makeText(loginActivity.this, "账号或密码错误", Toast.LENGTH_SHORT).show();
+                                displayerror();
                             }
                 }
             };
             Looper.loop();//Looper循环，通道中有数据执行，无数据堵塞
         }
+    }
+
+    public void displayerror(){
+        AlertDialog alertDialog1 = new AlertDialog.Builder(this)
+                .setMessage("账号或密码错误")
+                .create();
+        alertDialog1.show();
     }
 }
