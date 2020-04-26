@@ -80,6 +80,7 @@ public class findpawActivity extends AppCompatActivity {
                     }
                     else
                         displaypass(ret);
+                        //Toast.makeText(findpawActivity.this, "密码为"+ret, Toast.LENGTH_SHORT).show();
                 }
             };
             Looper.loop();//Looper循环，通道中有数据执行，无数据堵塞

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import com.example.music.adapter.MainListAdapter;
 import com.example.music.impl.OnMusicService;
 import com.example.music.manager.MusicManager;
 import com.example.music.model.Music;
+import com.example.music.ui.IndexActivity;
+import com.example.music.ui.netmusic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
                 changeskin();
                 break;
             case R.id.network:
-
+                startActivity(new Intent(MainActivity.this, netmusic.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

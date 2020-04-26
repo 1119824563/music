@@ -22,7 +22,6 @@ public class IndexActivity extends AppCompatActivity {
             @Override
             public void run() {
                 startActivity(new Intent(IndexActivity.this, loginActivity.class));
-                //startActivity(new Intent(IndexActivity.this, MainActivity.class));
                 finish();
             }
         },2000);

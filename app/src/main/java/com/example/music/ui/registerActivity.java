@@ -4,16 +4,18 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.music.R;
+import com.example.music.utils.DBUtil;
 
 public class registerActivity extends AppCompatActivity {
 
@@ -40,6 +42,8 @@ public class registerActivity extends AppCompatActivity {
         metpsw=(EditText)findViewById(R.id.etpsw);
         met_psw_again=(EditText)findViewById(R.id.et_psw_again);
 
+        WorkThread wt=new WorkThread();
+        wt.start();
 
         //注册
         mbtn_register.setOnClickListener(new View.OnClickListener() {
@@ -54,8 +58,15 @@ public class registerActivity extends AppCompatActivity {
                     displayerror2();
                 }else if(!ps.equals(psa)){
                     displayerror1();
-                }else
-                    Toast.makeText(registerActivity.this, "成功", Toast.LENGTH_SHORT).show();
+                }else{
+                    Message m=handler.obtainMessage();//获取事件
+                    Bundle b=new Bundle();
+                    b.putString("name",na);
+                    b.putString("pass",ps);
+                    m.setData(b);
+                    handler.sendMessage(m);//把信息放到通道中
+                    //Toast.makeText(registerActivity.this, "成功", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -87,6 +98,44 @@ public class registerActivity extends AppCompatActivity {
         AlertDialog alertDialog1 = new AlertDialog.Builder(this)
                 .setTitle("账号错误")//标题
                 .setMessage("账号不可为空")//内容
+                .create();
+        alertDialog1.show();
+    }
+
+    class WorkThread extends  Thread{
+        @Override
+        public  void run(){
+            super.run();
+            Looper.prepare();
+            handler=new Handler(){
+                @Override
+                public  void handleMessage(Message m){
+                    super.handleMessage(m);
+                    Bundle b = m.getData();//得到与信息对用的Bundle
+                    String name = b.getString("name");//根据键取值
+                    String pass = b.getString("pass");//根据键取值
+                    DBUtil db= new DBUtil();
+                    String ret = db.register(name,pass);//得到返回值
+                    if(ret.equals("0")){
+                        displayerror();
+                    }
+                    else
+                        displaytrue();
+                }
+            };
+            Looper.loop();//Looper循环，通道中有数据执行，无数据堵塞
+        }
+    }
+    public void displayerror(){
+        AlertDialog alertDialog1 = new AlertDialog.Builder(this)
+                .setTitle("注册失败")//标题
+                .setMessage("账号重复")//内容
+                .create();
+        alertDialog1.show();
+    }
+    public void displaytrue(){
+        AlertDialog alertDialog1 = new AlertDialog.Builder(this)
+                .setMessage("注册成功")//内容
                 .create();
         alertDialog1.show();
     }

@@ -16,6 +16,7 @@ public class DBUtil
         this.name=m;
         this.pass=p;
     }*/
+   //实现连接
     private static Connection getSQLConnection(String ip, String user, String pwd, String db)
     {
         Connection con = null;
@@ -85,40 +86,38 @@ public class DBUtil
         return result;
     }
 
-    /*public static String QuerySQL()
+    //注册
+    public String register(String name,String pass)
     {
-        String result = "字段1  -  字段2\n";
+        String result = "0";
         try
         {
-            Connection conn = getSQLConnection("13.94.60.177", "sa", "jinyintao159.", "music");
-            String sql = "select * from usename_password";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next())
+            Connection conn= getSQLConnection("13.94.60.177", "sa", "jinyintao159.", "music");
+            String sql = "insert into usename_password(Username,Password) values(?,?)";
+            PreparedStatement stat = conn.prepareStatement(sql);
+            stat.setString(1, name);
+            stat.setString(2, pass);
+            int low = stat.executeUpdate();
+            if(low>0)
             {
-                String s1 = rs.getString("Username");
-                String s2 = rs.getString("Password");
-                result += s1 + "  -  " + s2 + "\n";
-                System.out.println(s1 + "  -  " + s2);
+                result="1";
+                //System.out.println("成功");
             }
-            rs.close();
-            stmt.close();
+            stat.close();
             conn.close();
         } catch (SQLException e)
         {
             e.printStackTrace();
-            result += "查询数据异常!" + e.getMessage();
         }
         return result;
-        //return bool;
-    }*/
+    }
 
     public static void main(String[] args)
     {
         //DBUtil db=new DBUtil();
-        //db.QuerySQL();
         //db.QuerySQL("1","123");
         //db.FindSQL("1");
+        //db.register("5","123");
     }
 }
 
