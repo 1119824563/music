@@ -18,6 +18,7 @@
         android:icon="@drawable/img_icon"
         android:label="音乐喵"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.IndexActivity"
@@ -33,7 +34,7 @@
         <activity android:name=".ui.loginActivity"/>
         <activity android:name=".ui.registerActivity"/>
         <activity android:name=".ui.findpawActivity"/>
-        <activity android:name=".ui.netmusic"/>
+        <activity android:name=".ui.netmusicActivity"/>
 
         <activity android:name=".ui.PlayerActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>

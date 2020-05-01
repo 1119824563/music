@@ -20,8 +20,7 @@ import com.example.music.adapter.MainListAdapter;
 import com.example.music.impl.OnMusicService;
 import com.example.music.manager.MusicManager;
 import com.example.music.model.Music;
-import com.example.music.ui.IndexActivity;
-import com.example.music.ui.netmusic;
+import com.example.music.ui.netmusicActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 changeskin();
                 break;
             case R.id.network:
-                startActivity(new Intent(MainActivity.this, netmusic.class));
+                startActivity(new Intent(MainActivity.this, netmusicActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

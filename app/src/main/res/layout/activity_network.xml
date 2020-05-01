@@ -4,16 +4,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <SearchView
-        android:id="@+id/searchView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#99CCFF" >
-    </SearchView>
-    <ListView
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/serachtext"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:hint="请输入歌曲名"/>
+        <Button
+            android:id="@+id/serach"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:text="搜索"/>
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/netmusiclist"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </ListView>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
