@@ -48,7 +48,7 @@
             android:src="@drawable/iv_music_test_cover" />
         <com.hw.lrcviewlib.LrcView
             android:visibility="gone"
-            android:id="@+id/mLrcView"
+            android:id="@+id/LrcView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>

@@ -14,8 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.music.R;
 import com.example.music.adapter.NetMusicAdapter;
+import com.example.music.model.NET;
 import com.example.music.model.netmusic;
 
 import java.io.IOException;
@@ -67,12 +69,7 @@ public class netmusicActivity extends AppCompatActivity {
                 b.putString("key",keyword);//以键值对形式放进 Bundle中
                 m.setData(b);
                 handler.sendMessage(m);//把信息放到通道中
-                /*try {
-                    getDataBySong(keyword);
-                } catch (IOException e) {
-                    Toast.makeText(netmusicActivity.this, "1111111", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }*/
+
             }
         };
     }
@@ -97,6 +94,7 @@ public class netmusicActivity extends AppCompatActivity {
         String message=response.body().string();
         return message;
     }
+    //需要网络的必须放在子线程中
     class WorkThread extends  Thread{
         @Override
         public  void run(){
@@ -108,11 +106,16 @@ public class netmusicActivity extends AppCompatActivity {
                     super.handleMessage(m);
                     Bundle b = m.getData();//得到与信息对用的Bundle
                     String keyword = b.getString("key");//根据键取值
-                    Toast.makeText(netmusicActivity.this, keyword, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(netmusicActivity.this, keyword, Toast.LENGTH_SHORT).show();
                     String json;
+                    String a;
+                    NET jsonObject;
                     try {
                         json=getDataBySong(keyword);
                         //Toast.makeText(netmusicActivity.this, json, Toast.LENGTH_SHORT).show();
+                        jsonObject = JSONObject.parseObject(json,NET.class);
+                        a=jsonObject.getResult().getSongs().get(1).getName();
+                        Toast.makeText(netmusicActivity.this, "歌名="+a,Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
                         e.printStackTrace();
                         Toast.makeText(netmusicActivity.this, "11111", Toast.LENGTH_SHORT).show();

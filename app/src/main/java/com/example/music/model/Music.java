@@ -2,7 +2,7 @@ package com.example.music.model;
 
 import android.graphics.Bitmap;
 
-//音乐模型
+//本地音乐模型
 public class Music {
 
     //歌名

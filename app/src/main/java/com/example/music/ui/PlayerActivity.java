@@ -67,7 +67,7 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
 
         random = new Random();
 
-        mLrcView=findViewById(R.id.mLrcView);
+        mLrcView=findViewById(R.id.LrcView);
         mTvMusicName = findViewById(R.id.tv_music_name);
         mTvMusicSinger = findViewById(R.id.tv_music_singer);
         mProfileImage = findViewById(R.id.profile_image);
@@ -188,15 +188,14 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
             List<LrcRow> lrcRows = new LrcDataBuilder().Build(new File(music.getLrcPath()));
             mLrcView.getLrcSetting()
                     .setTimeTextSize(40)//时间字体大小
-                    .setSelectLineColor(Color.parseColor("#ffffff"))//选中线颜色
+                    .setSelectLineColor(Color.parseColor("#99CCFF"))//选中线颜色
                     .setSelectLineTextSize(25)//选中线大小
-                    .setHeightRowColor(Color.parseColor("#aaffffff"))//高亮字体颜色
+                    .setHeightRowColor(Color.parseColor("#99CCFF"))//高亮字体颜色
                     .setNormalRowTextSize(45)//正常行字体大小
                     .setHeightLightRowTextSize(45)//高亮行字体大小
                     .setTrySelectRowTextSize(45)//尝试选中行字体大小
                     .setTimeTextColor(Color.parseColor("#ffffff"))//时间字体颜色
                     .setTrySelectRowColor(Color.parseColor("#55ffffff"));//尝试选中字体颜色
-
             mLrcView.commitLrcSettings();
             mLrcView.setLrcData(lrcRows);
         }
@@ -242,7 +241,7 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
                 mLrcView.setVisibility(View.VISIBLE);
                 mProfileImage.setVisibility(View.GONE);
                 break;
-            case R.id.mLrcView:
+            case R.id.LrcView:
                 mProfileImage.setVisibility(View.VISIBLE);
                 mLrcView.setVisibility(View.GONE);
                 break;

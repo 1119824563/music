@@ -1,6 +1,9 @@
 package com.example.music.model;
 
+//网络歌曲模型
 public class netmusic {
+
+    private int musicid;
 
     //歌名
     private String songname;
@@ -12,6 +15,14 @@ public class netmusic {
     private String songurl;
     //封面url
     private String img1v1Url;*/
+
+    public int getMusicid() {
+        return musicid;
+    }
+
+    public void setMusicid(int musicid) {
+        this.musicid = musicid;
+    }
 
     public String getSongname() {
         return songname;
@@ -52,5 +63,7 @@ public class netmusic {
     public void setImg1v1Url(String img1v1Url) {
         this.img1v1Url = img1v1Url;
     }*/
+
+
 
 }
