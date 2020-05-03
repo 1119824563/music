@@ -3,18 +3,16 @@ package com.example.music.model;
 //网络歌曲模型
 public class netmusic {
 
+    //歌曲id
     private int musicid;
-
     //歌名
     private String songname;
     //歌手
     private String singername;
-    /*//专辑
-    private String album;
     //歌曲url
     private String songurl;
     //封面url
-    private String img1v1Url;*/
+    private String img1v1Url;
 
     public int getMusicid() {
         return musicid;
@@ -40,14 +38,6 @@ public class netmusic {
         this.singername = singername;
     }
 
-    /*public String getAlbum() {
-        return album;
-    }
-
-    public void setAlbum(String album) {
-        this.album = album;
-    }
-
     public String getSongurl() {
         return songurl;
     }
@@ -62,8 +52,6 @@ public class netmusic {
 
     public void setImg1v1Url(String img1v1Url) {
         this.img1v1Url = img1v1Url;
-    }*/
-
-
+    }
 
 }

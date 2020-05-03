@@ -39,6 +39,9 @@
         <activity
             android:name=".ui.PlayerActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
+            android:name=".ui.NetPlayActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
 
         <service android:name=".service.MusicService" />
     </application>

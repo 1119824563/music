@@ -17,12 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alibaba.fastjson.JSONObject;
 import com.example.music.R;
 import com.example.music.adapter.NetMusicAdapter;
+import com.example.music.manager.NetmusicManager;
 import com.example.music.model.NET;
 import com.example.music.model.netmusic;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -31,7 +30,7 @@ import okhttp3.Response;
 public class netmusicActivity extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
-    private List<netmusic> mMusicList= new ArrayList<>();
+    //private List<netmusic> mMusicList= new ArrayList<>();
     private NetMusicAdapter mNetMusicAdapter;
     private TextView searchtext;
     private Button search;
@@ -49,7 +48,7 @@ public class netmusicActivity extends AppCompatActivity {
         //列表初始化显示
         mRecyclerView=(RecyclerView) findViewById(R.id.netmusiclist);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mNetMusicAdapter = new NetMusicAdapter(this,mMusicList);
+        mNetMusicAdapter = new NetMusicAdapter(this,NetmusicManager.getInstance().mnetmusicList);
         mRecyclerView.setAdapter(mNetMusicAdapter);
 
         WorkThread wt=new WorkThread();
@@ -63,7 +62,7 @@ public class netmusicActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                mMusicList.clear();//清空上一次的搜索列表
+                NetmusicManager.getInstance().mnetmusicList.clear();//清空上一次的搜索列表
                 String keyword = searchtext.getText().toString();
                 Message m=handler.obtainMessage();//获取事件
                 Bundle b=new Bundle();
@@ -106,10 +105,11 @@ public class netmusicActivity extends AppCompatActivity {
                         jsonObject = JSONObject.parseObject(json,NET.class);
                         for(int i=0;i<30;i++){
                             netmusic mnetmusic=new netmusic();
-                            mnetmusic.setSongname(jsonObject.getResult().getSongs().get(i).getName());
-                            mnetmusic.setMusicid(jsonObject.getResult().getSongs().get(i).getId());
-                            mnetmusic.setSingername(jsonObject.getResult().getSongs().get(i).getArtists().get(0).getName());
-                            mMusicList.add(mnetmusic);
+                            mnetmusic.setSongname(jsonObject.getResult().getSongs().get(i).getName());//歌名
+                            mnetmusic.setMusicid(jsonObject.getResult().getSongs().get(i).getId());//歌曲id
+                            mnetmusic.setSingername(jsonObject.getResult().getSongs().get(i).getArtists().get(0).getName());//歌手
+                            mnetmusic.setImg1v1Url(jsonObject.getResult().getSongs().get(i).getArtists().get(0).getImg1v1Url());//封面
+                            NetmusicManager.getInstance().mnetmusicList.add(mnetmusic);
                        }
                     } catch (IOException e) {
                         e.printStackTrace();

@@ -123,6 +123,7 @@ public class loginActivity extends AppCompatActivity{
                                 return;
                             }
                             else if(ret.equals("0")){
+                                Toast.makeText(loginActivity.this, "账号或密码错误", Toast.LENGTH_SHORT).show();
                                 displayerror();
                             }
                 }

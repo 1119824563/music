@@ -92,7 +92,6 @@ public class MusicService extends Service{
 
         //绑定客户端回调 ——> Service拿到Activity的接口对象可以调用并通知Activity
         public OnMusicClient bindClientImple() {
-
             return clientImpl;
         }
     }
@@ -102,13 +101,11 @@ public class MusicService extends Service{
         return new MusicBinder();
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();
         mExecutorService = Executors.newFixedThreadPool(3);
     }
-
 
     //搜索音乐
     private void scanMusic(String path) {
