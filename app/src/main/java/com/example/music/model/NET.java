@@ -35,14 +35,14 @@ public class NET {
          * songCount : 349
          */
 
-        private String songCount;
+        private int songCount;
         private List<SongsBean> songs;
 
-        public String getSongCount() {
+        public int getSongCount() {
             return songCount;
         }
 
-        public void setSongCount(String songCount) {
+        public void setSongCount(int songCount) {
             this.songCount = songCount;
         }
 
@@ -72,7 +72,7 @@ public class NET {
              * mark : 8192
              */
 
-            private String id;
+            private int id;
             private String name;
             private AlbumBean album;
             private String duration;
@@ -87,11 +87,11 @@ public class NET {
             private List<ArtistsBean> artists;
             private List<?> alias;
 
-            public String getId() {
+            public int getId() {
                 return id;
             }
 
-            public void setId(String id) {
+            public void setId(int id) {
                 this.id = id;
             }
 

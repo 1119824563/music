@@ -15,6 +15,7 @@ import com.example.music.ui.PlayerActivity;
 
 import java.util.List;
 
+//本地音乐适配器
 public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHolder> {
     private Context mContext;
     private LayoutInflater inflater;

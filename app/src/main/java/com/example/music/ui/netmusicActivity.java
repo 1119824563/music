@@ -46,7 +46,7 @@ public class netmusicActivity extends AppCompatActivity {
         search=findViewById(R.id.serach);
         search.setOnClickListener(getsearch());
 
-        //a();
+        //列表初始化显示
         mRecyclerView=(RecyclerView) findViewById(R.id.netmusiclist);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mNetMusicAdapter = new NetMusicAdapter(this,mMusicList);
@@ -63,26 +63,17 @@ public class netmusicActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                mMusicList.clear();//清空上一次的搜索列表
                 String keyword = searchtext.getText().toString();
                 Message m=handler.obtainMessage();//获取事件
                 Bundle b=new Bundle();
                 b.putString("key",keyword);//以键值对形式放进 Bundle中
                 m.setData(b);
                 handler.sendMessage(m);//把信息放到通道中
-
+                mNetMusicAdapter.notifyDataSetChanged();//更新列表
             }
         };
     }
-    /*//测试用
-    public void a(){
-        netmusic mnetmusic=new netmusic();
-        mnetmusic.setSingername("周杰伦");
-        mnetmusic.setSongname("青花瓷");
-        mMusicList.add(mnetmusic);
-        mnetmusic.setSingername("周杰伦");
-        mnetmusic.setSongname("菊花台");
-        mMusicList.add(mnetmusic);
-    }*/
 
     //获取json
     private String getDataBySong(String keyword) throws IOException {
@@ -94,7 +85,7 @@ public class netmusicActivity extends AppCompatActivity {
         String message=response.body().string();
         return message;
     }
-    //需要网络的必须放在子线程中
+    //解析json获取音乐
     class WorkThread extends  Thread{
         @Override
         public  void run(){
@@ -108,17 +99,21 @@ public class netmusicActivity extends AppCompatActivity {
                     String keyword = b.getString("key");//根据键取值
                     //Toast.makeText(netmusicActivity.this, keyword, Toast.LENGTH_SHORT).show();
                     String json;
-                    String a;
                     NET jsonObject;
                     try {
                         json=getDataBySong(keyword);
                         //Toast.makeText(netmusicActivity.this, json, Toast.LENGTH_SHORT).show();
                         jsonObject = JSONObject.parseObject(json,NET.class);
-                        a=jsonObject.getResult().getSongs().get(1).getName();
-                        Toast.makeText(netmusicActivity.this, "歌名="+a,Toast.LENGTH_SHORT).show();
+                        for(int i=0;i<30;i++){
+                            netmusic mnetmusic=new netmusic();
+                            mnetmusic.setSongname(jsonObject.getResult().getSongs().get(i).getName());
+                            mnetmusic.setMusicid(jsonObject.getResult().getSongs().get(i).getId());
+                            mnetmusic.setSingername(jsonObject.getResult().getSongs().get(i).getArtists().get(0).getName());
+                            mMusicList.add(mnetmusic);
+                       }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Toast.makeText(netmusicActivity.this, "11111", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(netmusicActivity.this, "异常，返回重进就好", Toast.LENGTH_SHORT).show();
                     }
                 }
             };

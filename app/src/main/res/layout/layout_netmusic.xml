@@ -4,6 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@android:color/white"
+        card_view:cardCornerRadius="4dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,5 +33,6 @@
             android:textSize="12sp" />
 
     </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
