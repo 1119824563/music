@@ -2,7 +2,6 @@ package com.example.music.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import static android.os.SystemClock.sleep;
 public class NetMusicAdapter extends RecyclerView.Adapter<NetMusicAdapter.ViewHolder>{
     private LayoutInflater inflater;
     public Context mContext;
-    private Handler handler;
 
     public NetMusicAdapter(Context mContext,List<netmusic>mnetmusicList){
         this.mContext=mContext;
@@ -49,13 +47,10 @@ public class NetMusicAdapter extends RecyclerView.Adapter<NetMusicAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                int p=position;
-                int musicid=NetmusicManager.getInstance().mnetmusicList.get(position).getMusicid();//获取对应的音乐id
-                //Toast.makeText(mContext, "点击"+musicid, Toast.LENGTH_SHORT).show();
-                NetmusicManager.getInstance().getList(p,musicid);
-                sleep(1000);
+                NetmusicManager.getInstance().getList(position);
+                Toast.makeText(mContext, "接口数据获取较慢，请勿重复点击", Toast.LENGTH_SHORT).show();
+                sleep(2000);
                 if(NetmusicManager.getInstance().iftrue){
-                    Toast.makeText(mContext, "接口数据获取较慢，如果歌曲有误，返回再点一次", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(mContext, NetPlayActivity.class);
                     intent.putExtra("position",position);
                     mContext.startActivity(intent);

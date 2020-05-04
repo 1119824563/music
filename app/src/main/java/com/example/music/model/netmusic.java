@@ -1,5 +1,7 @@
 package com.example.music.model;
 
+import android.graphics.Bitmap;
+
 //网络歌曲模型
 public class netmusic {
 
@@ -13,6 +15,16 @@ public class netmusic {
     private String songurl;
     //封面url
     private String img1v1Url;
+    //封面
+    private Bitmap bitmap;
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
 
     public int getMusicid() {
         return musicid;

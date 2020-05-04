@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alibaba.fastjson.JSONObject;
 import com.example.music.R;
 import com.example.music.adapter.NetMusicAdapter;
+import com.example.music.impl.OnNetMusicService;
 import com.example.music.manager.NetmusicManager;
 import com.example.music.model.NET;
 import com.example.music.model.netmusic;
@@ -45,6 +46,13 @@ public class netmusicActivity extends AppCompatActivity {
         search=findViewById(R.id.serach);
         search.setOnClickListener(getsearch());
 
+        NetmusicManager.getInstance().bindNetMusicService(this, new OnNetMusicService() {
+            @Override
+            public void bindSucceed() {
+                //Toast.makeText(netmusicActivity.this, "123", Toast.LENGTH_SHORT).show();
+                //NetmusicManager.getInstance().getClientImpl().bindSucceed();
+            }
+        });
         //列表初始化显示
         mRecyclerView=(RecyclerView) findViewById(R.id.netmusiclist);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -119,5 +127,11 @@ public class netmusicActivity extends AppCompatActivity {
             };
             Looper.loop();//Looper循环，通道中有数据执行，无数据堵塞
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        NetmusicManager.getInstance().unbindNetMusicService();
     }
 }

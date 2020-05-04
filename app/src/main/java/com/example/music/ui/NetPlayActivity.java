@@ -1,8 +1,10 @@
 package com.example.music.ui;
 
 import android.animation.ObjectAnimator;
-import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -20,12 +22,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.music.R;
 import com.example.music.manager.NetmusicManager;
 import com.example.music.model.netmusic;
+import com.example.music.utils.UtilBitmap;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.net.URL;
 import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.os.SystemClock.sleep;
 
 public class NetPlayActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -41,11 +45,10 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
     private LinearLayout mLlContent;
     private ImageView mivplaymodel;
     private ObjectAnimator circleRotateAnim;
-    private List<netmusic> mnetmusicList = new ArrayList<>();;
-    private Context mcontext;
 
     private  int position;
     private Random random;
+    private netmusic mic;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,17 +109,44 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
     public void startMusic(int position){
 
         if(!NetmusicManager.getInstance().iftrue){
-            Toast.makeText(mcontext, "暂无版权，无法播放", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "暂无版权，无法播放", Toast.LENGTH_SHORT).show();
+        }
+
+        mic= NetmusicManager.getInstance().mnetmusicList.get(position);
+        sleep(1000);
+        //播放
+        //Toast.makeText(this, mic.getSongurl(), Toast.LENGTH_SHORT).show();
+        NetmusicManager.getInstance().startPlay(mic.getSongurl());
+
+        //进度条
+        mSProgress.setProgress(0);
+        //中间的播放按钮状态为暂停
+        mIvControl.setBackgroundResource(R.drawable.ic_pause);
+
+        mTvMusicName.setText(mic.getSongname());
+        mTvMusicSinger.setText(mic.getSingername());
+
+        circleRotateAnim.start();
+        getBitmap();
+        sleep(1000);
+        if(mic.getBitmap()!=null){
+            setMusicCover(mic.getBitmap());
         }else{
-            netmusic mic= NetmusicManager.getInstance().mnetmusicList.get(position);
-            //进度条
-            mSProgress.setProgress(0);
+            setMusicCover(BitmapFactory.decodeResource(getResources(),R.drawable.iv_music_test_cover));
+        }
 
-            //中间的播放按钮状态为暂停
-            mIvControl.setBackgroundResource(R.drawable.ic_pause);
+    }
 
-            mTvMusicName.setText(mic.getSongname());
-            mTvMusicSinger.setText(mic.getSingername());
+    //设置中间的圈圈
+    private void setMusicCover(Bitmap musicCover) {
+        mProfileImage.setImageBitmap(musicCover);
+
+        //高斯模糊
+        Bitmap mBitmap = UtilBitmap.blurImageView(this, mProfileImage, 20);
+        if (mBitmap != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                mLlContent.setBackground(new BitmapDrawable(getResources(), mBitmap));
+            }
         }
     }
 
@@ -128,7 +158,17 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
                 musicPlay(true);
                 break;
             case R.id.iv_control:
-
+                if(NetmusicManager.getInstance().MEDIA_STATUS == NetmusicManager.getInstance().MEDIA_STATUS_PLAY){
+                    NetmusicManager.getInstance().pausePlay();
+                    mIvControl.setBackgroundResource(R.drawable.ic_play);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        circleRotateAnim.pause();
+                    }
+                } else if(NetmusicManager.getInstance().MEDIA_STATUS == NetmusicManager.getInstance().MEDIA_STATUS_PAUSE){
+                    NetmusicManager.getInstance().continuePlay();
+                    mIvControl.setBackgroundResource(R.drawable.ic_pause);
+                    circleRotateAnim.start();
+                }
                 break;
             case R.id.iv_next:
                 musicPlay(false);
@@ -155,6 +195,25 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    //从url获取图片
+    public void getBitmap(){
+        new Thread(){
+            public void run() {
+                try {
+                    if(mic.getImg1v1Url()!= null)
+                    {
+                        URL url = new URL(mic.getImg1v1Url());
+                        mic.setBitmap(BitmapFactory.decodeStream(url.openStream()));
+                    }else{
+                        mic.setBitmap(null);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            };
+        }.start();
+    }
+
     /**
      * true：上一曲
      * false:下一曲
@@ -165,6 +224,8 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
             if (isPrev) {
                 position = position - 1;
                 if (position >= 0) {
+                    NetmusicManager.getInstance().getList(position);
+                    sleep(2000);
                     startMusic(position);
                 }else{
                     //已经没有上一曲
@@ -173,6 +234,8 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
             } else {
                 position = position + 1;
                 if (position <= (NetmusicManager.getInstance().mnetmusicList.size() - 1)) {
+                    NetmusicManager.getInstance().getList(position);
+                    sleep(2000);
                     startMusic(position);
                 }else{
                     //已经没有下一曲
@@ -182,9 +245,13 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
         }else if(NetmusicManager.MEDIA_PLAY_MODE==NetmusicManager.MEDIA_PLAY_MODE_RANDOM){
             if(random!=null){
                 int x=random.nextInt(NetmusicManager.getInstance().mnetmusicList.size());
+                NetmusicManager.getInstance().getList(x);
+                sleep(2000);
                 startMusic(x);
             }
         }else if(NetmusicManager.MEDIA_PLAY_MODE==NetmusicManager.MEDIA_PLAY_MODE_SINGLE){
+            NetmusicManager.getInstance().getList(position);
+            sleep(2000);
             startMusic(position);
         }
     }

@@ -44,6 +44,7 @@
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
 
         <service android:name=".service.MusicService" />
+        <service android:name=".service.NetMusicService" />
     </application>
 
 </manifest>
