@@ -83,7 +83,6 @@ public class loginActivity extends AppCompatActivity{
             public void onClick(View v)
             {
                 startActivity(new Intent(loginActivity.this, registerActivity.class));
-                finish();
             }
         };
     }
@@ -96,7 +95,6 @@ public class loginActivity extends AppCompatActivity{
             public void onClick(View v)
             {
                 startActivity(new Intent(loginActivity.this, findpawActivity.class));
-                finish();
             }
         };
     }

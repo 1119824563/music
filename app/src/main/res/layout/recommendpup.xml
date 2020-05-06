@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="right"
+    >
+    <!--右侧位置-->
+    <Button
+        android:id="@+id/rec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:background="#333333"
+        android:text="推荐音乐"
+        android:textColor="#ffffff"
+        android:paddingRight="12dp"
+        android:paddingLeft="10dp"
+        />
+    <Button
+        android:id="@+id/loadrec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:background="#333333"
+        android:text="存放音乐"
+        android:textColor="#ffffff"
+        android:paddingRight="12dp"
+        android:paddingLeft="10dp"
+        />
+
+</LinearLayout>

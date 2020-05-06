@@ -43,7 +43,7 @@ public class MusicManager {
     public final static int MEDIA_PLAY_MODE_RANDOM = 4;//随机
     public final static int MEDIA_PLAY_MODE_SINGLE = 5;//单曲
 
-    public static int MEDIA_PLAY_MODE=MEDIA_PLAY_MODE_ORDER;//默认是顺序
+    public static int MEDIA_PLAY_MODE=MEDIA_PLAY_MODE_SINGLE;//默认是顺序
 
     private PLMediaPlayer mMediaPlayer;
     //private SimpleExoPlayer mSimpleExoPlayer;

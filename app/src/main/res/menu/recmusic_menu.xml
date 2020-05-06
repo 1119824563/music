@@ -4,20 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
-        android:id="@+id/network"
-       android:icon="@drawable/network"
+        android:id="@+id/getmusic"
+        android:icon="@drawable/recommend"
+        app:showAsAction="always"
+        tools:ignore="MenuTitle" />
+    <item
+        android:id="@+id/downloadrec"
+        android:icon="@drawable/down"
         app:showAsAction="always"
         tools:ignore="MenuTitle" />
 
     <item
-        android:id="@+id/menu_scan"
-        android:icon="@drawable/img_main_scan"
+        android:id="@+id/returnbackrec"
+        android:icon="@drawable/back"
         app:showAsAction="always"
         tools:ignore="MenuTitle" />
 
-    <item
-        android:id="@+id/setup"
-        android:icon="@drawable/set"
-        app:showAsAction="always"
-        tools:ignore="MenuTitle" />
+
 </menu>

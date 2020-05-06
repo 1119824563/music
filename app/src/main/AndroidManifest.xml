@@ -36,6 +36,14 @@
         <activity android:name=".ui.registerActivity" />
         <activity android:name=".ui.findpawActivity" />
         <activity android:name=".ui.netmusicActivity" />
+        <activity android:name=".ui.LoveMusicActivity"/>
+        <activity android:name=".ui.RecMusicActivity"/>
+        <activity
+            android:name=".ui.singerActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
+            android:name=".ui.RecMusicPlayActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".ui.PlayerActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />

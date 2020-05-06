@@ -15,34 +15,33 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.music.R;
 import com.example.music.manager.NetmusicManager;
 import com.example.music.model.netmusic;
-import com.example.music.ui.NetPlayActivity;
+import com.example.music.ui.RecMusicPlayActivity;
 
 import java.util.List;
 
 import static android.os.SystemClock.sleep;
 
-//网络音乐适配器
-public class NetMusicAdapter extends RecyclerView.Adapter<NetMusicAdapter.ViewHolder>{
+public class recMusicAdapter extends RecyclerView.Adapter<recMusicAdapter.ViewHolder>{
     private LayoutInflater inflater;
     public Context mContext;
     boolean love=false;
 
-    public NetMusicAdapter(Context mContext,List<netmusic>mnetmusicList){
+    public recMusicAdapter(Context mContext, List<netmusic> mnetmusicList){
         this.mContext=mContext;
         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
-    public NetMusicAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public recMusicAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.layout_netmusic,null);
-        NetMusicAdapter.ViewHolder viewHolder = new NetMusicAdapter.ViewHolder(view);
+        recMusicAdapter.ViewHolder viewHolder = new recMusicAdapter.ViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final NetMusicAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final recMusicAdapter.ViewHolder holder, final int position) {
 
-        final netmusic mnetmusic =  NetmusicManager.getInstance().mnetmusicList.get(position);
+        final netmusic mnetmusic =  NetmusicManager.getInstance().recmusicList.get(position);
         holder.tv_netmusic_name.setText(mnetmusic.getSongname());
         holder.tv_netmusic_singer.setText(mnetmusic.getSingername());
 
@@ -50,11 +49,11 @@ public class NetMusicAdapter extends RecyclerView.Adapter<NetMusicAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                NetmusicManager.getInstance().getList(position);
+                NetmusicManager.getInstance().getrecList(position);
                 Toast.makeText(mContext, "接口数据获取较慢，请勿重复点击", Toast.LENGTH_SHORT).show();
                 sleep(2000);
                 if(NetmusicManager.getInstance().iftrue){
-                    Intent intent = new Intent(mContext, NetPlayActivity.class);
+                    Intent intent = new Intent(mContext, RecMusicPlayActivity.class);
                     intent.putExtra("position",position);
                     mContext.startActivity(intent);
                 }else{
@@ -64,25 +63,25 @@ public class NetMusicAdapter extends RecyclerView.Adapter<NetMusicAdapter.ViewHo
         });
 
         //长按
-       holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
-           @Override
-           public boolean onLongClick(View view) {
-               AlertDialog isExit = new AlertDialog.Builder(mContext).create();
-               isExit.setTitle("提示");
-               isExit.setMessage("确定要收藏这首歌吗");
-               isExit.setButton("确定",listener);
-               isExit.setButton2("取消", listener);
-               isExit.show();
-               if(love){
-                   netmusic mlovemusic=new netmusic();
-                   mlovemusic.setSongname(mnetmusic.getSongname());
-                   mlovemusic.setSingername(mnetmusic.getSingername());
-                   mlovemusic.setMusicid(mnetmusic.getMusicid());
-                   NetmusicManager.getInstance().lovemusicList.add(mlovemusic);
-               }
-               return true;
-           }
-       });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
+            @Override
+            public boolean onLongClick(View view) {
+                AlertDialog isExit = new AlertDialog.Builder(mContext).create();
+                isExit.setTitle("提示");
+                isExit.setMessage("确定要收藏这首歌吗");
+                isExit.setButton("确定",listener);
+                isExit.setButton2("取消", listener);
+                isExit.show();
+                if(love){
+                    netmusic mlovemusic=new netmusic();
+                    mlovemusic.setSongname(mnetmusic.getSongname());
+                    mlovemusic.setSingername(mnetmusic.getSingername());
+                    mlovemusic.setMusicid(mnetmusic.getMusicid());
+                    NetmusicManager.getInstance().lovemusicList.add(mlovemusic);
+                }
+                return true;
+            }
+        });
 
     }
 
@@ -105,7 +104,7 @@ public class NetMusicAdapter extends RecyclerView.Adapter<NetMusicAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return NetmusicManager.getInstance().mnetmusicList.size();
+        return NetmusicManager.getInstance().recmusicList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -119,5 +118,4 @@ public class NetMusicAdapter extends RecyclerView.Adapter<NetMusicAdapter.ViewHo
             tv_netmusic_singer = itemView.findViewById(R.id.tv_netmusic_singer);
         }
     }
-
 }

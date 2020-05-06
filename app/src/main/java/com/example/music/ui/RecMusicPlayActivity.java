@@ -38,8 +38,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.os.SystemClock.sleep;
 
-public class NetPlayActivity extends AppCompatActivity implements View.OnClickListener{
-
+public class RecMusicPlayActivity extends AppCompatActivity implements View.OnClickListener{
     private TextView mTvMusicName;
     private TextView mTvMusicSinger;
     private CircleImageView mProfileImage;
@@ -123,7 +122,7 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
             Toast.makeText(this, "暂无版权，无法播放", Toast.LENGTH_SHORT).show();
         }
 
-        mic= NetmusicManager.getInstance().mnetmusicList.get(position);
+        mic= NetmusicManager.getInstance().recmusicList.get(position);
         //播放
         //Toast.makeText(this, mic.getSongurl(), Toast.LENGTH_SHORT).show();
         NetmusicManager.getInstance().startPlay(mic.getSongurl());
@@ -200,12 +199,12 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
     //点击
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.tv_music_singer://歌手界面
+            case R.id.tv_music_singer:
                 NetmusicManager.getInstance().singermusicList.clear();
-                NetmusicManager.getInstance().setSingername(NetmusicManager.getInstance().mnetmusicList.get(position).getSingername());
-                NetmusicManager.getInstance().getsinger(position);
+                NetmusicManager.getInstance().setSingername(NetmusicManager.getInstance().recmusicList.get(position).getSingername());
+                NetmusicManager.getInstance().getsingerrec(position);
                 sleep(2000);
-                startActivity(new Intent(NetPlayActivity.this,singerActivity.class));
+                startActivity(new Intent(RecMusicPlayActivity.this,singerActivity.class));
                 break;
             case R.id.iv_prev:
                 musicPlay(true);
@@ -228,12 +227,12 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
                 musicPlay(false);
                 break;
             case R.id.profile_image:
-                int mid=NetmusicManager.getInstance().mnetmusicList.get(position).getMusicid();//id
-                String mname = NetmusicManager.getInstance().mnetmusicList.get(position).getSongname();//歌名
-                String msingername = NetmusicManager.getInstance().mnetmusicList.get(position).getSingername();//歌手
-                String malbum=NetmusicManager.getInstance().mnetmusicList.get(position).getAlbum();//专辑
-                String murl= NetmusicManager.getInstance().mnetmusicList.get(position).getSongurl();//歌曲url
-                String mlrc=NetmusicManager.getInstance().mnetmusicList.get(position).getMusiclrc();//歌词
+                int mid=NetmusicManager.getInstance().recmusicList.get(position).getMusicid();//id
+                String mname = NetmusicManager.getInstance().recmusicList.get(position).getSongname();//歌名
+                String msingername = NetmusicManager.getInstance().recmusicList.get(position).getSingername();//歌手
+                String malbum=NetmusicManager.getInstance().recmusicList.get(position).getAlbum();//专辑
+                String murl= NetmusicManager.getInstance().recmusicList.get(position).getSongurl();//歌曲url
+                String mlrc=NetmusicManager.getInstance().recmusicList.get(position).getMusiclrc();//歌词
                 Message m=handler.obtainMessage();//获取事件
                 Bundle b=new Bundle();
                 b.putInt("mid",mid);
@@ -247,7 +246,7 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
                 if(repeat){
                     Toast.makeText(this, "存放成功", Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(this, "数据已存放", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "数据已存在", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.iv_play_model:
@@ -317,7 +316,6 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
             };
         }.start();
     }
-
     /**
      * true：上一曲
      * false:下一曲
@@ -328,7 +326,7 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
             if (isPrev) {
                 position = position - 1;
                 if (position >= 0) {
-                    NetmusicManager.getInstance().getList(position);
+                    NetmusicManager.getInstance().getrecList(position);
                     startMusic(position);
                 }else{
                     //已经没有上一曲
@@ -336,8 +334,8 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
                 }
             } else {
                 position = position + 1;
-                if (position <= (NetmusicManager.getInstance().mnetmusicList.size() - 1)) {
-                    NetmusicManager.getInstance().getList(position);
+                if (position <= (NetmusicManager.getInstance().recmusicList.size() - 1)) {
+                    NetmusicManager.getInstance().getrecList(position);
                     startMusic(position);
                 }else{
                     //已经没有下一曲
@@ -346,12 +344,12 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
             }
         }else if(NetmusicManager.MEDIA_PLAY_MODE==NetmusicManager.MEDIA_PLAY_MODE_RANDOM){
             if(random!=null){
-                int x=random.nextInt(NetmusicManager.getInstance().mnetmusicList.size());
-                NetmusicManager.getInstance().getList(x);
+                int x=random.nextInt(NetmusicManager.getInstance().recmusicList.size());
+                NetmusicManager.getInstance().getrecList(x);
                 startMusic(x);
             }
         }else if(NetmusicManager.MEDIA_PLAY_MODE==NetmusicManager.MEDIA_PLAY_MODE_SINGLE){
-            NetmusicManager.getInstance().getList(position);
+            NetmusicManager.getInstance().getrecList(position);
             sleep(1000);
             startMusic(position);
         }

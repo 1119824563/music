@@ -11,12 +11,62 @@ public class netmusic {
     private String songname;
     //歌手
     private String singername;
+    //歌手id
+    private String singerid;
+    private int singid;
+
+    public int getSingid() {
+        return singid;
+    }
+
+    public void setSingid(int singid) {
+        this.singid = singid;
+    }
+
     //歌曲url
     private String songurl;
     //封面url
     private String img1v1Url;
     //封面
     private Bitmap bitmap;
+    //专辑
+    private String album;
+    //歌词
+    private String musiclrc;
+    //歌手介绍
+    private String singermore;
+
+    public String getSingermore() {
+        return singermore;
+    }
+
+    public void setSingermore(String singermore) {
+        this.singermore = singermore;
+    }
+
+    public String getSingerid() {
+        return singerid;
+    }
+
+    public void setSingerid(String singerid) {
+        this.singerid = singerid;
+    }
+
+    public String getMusiclrc() {
+        return musiclrc;
+    }
+
+    public void setMusiclrc(String musiclrc) {
+        this.musiclrc = musiclrc;
+    }
+
+    public String getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(String album) {
+        this.album = album;
+    }
 
     public Bitmap getBitmap() {
         return bitmap;
