@@ -4,7 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,12 +39,20 @@ public class loveMusicAdapter extends RecyclerView.Adapter<loveMusicAdapter.View
         final netmusic mnetmusic =  NetmusicManager.getInstance().lovemusicList.get(position);
         holder.tv_netmusic_name.setText(mnetmusic.getSongname());
         holder.tv_netmusic_singer.setText(mnetmusic.getSingername());
+        holder.tv_netmusic_album.setText(mnetmusic.getAlbum());
 
+        //下载
+        holder.down.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, "已下载", Toast.LENGTH_SHORT).show();
+            }
+        });
         //列表点击
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(mContext, "收藏列表仅供显示，不支持播放", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -50,7 +60,7 @@ public class loveMusicAdapter extends RecyclerView.Adapter<loveMusicAdapter.View
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
             public boolean onLongClick(View view) {
-
+                Toast.makeText(mContext, "歌曲已收藏", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -66,11 +76,15 @@ public class loveMusicAdapter extends RecyclerView.Adapter<loveMusicAdapter.View
 
         private TextView tv_netmusic_name;
         private TextView tv_netmusic_singer;
+        private TextView tv_netmusic_album;
+        private Button down;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tv_netmusic_name = itemView.findViewById(R.id.tv_netmusic_name);
             tv_netmusic_singer = itemView.findViewById(R.id.tv_netmusic_singer);
+            down=itemView.findViewById(R.id.downmusic);
+            tv_netmusic_album=itemView.findViewById(R.id.tv_netmusic_album);
         }
     }
 }

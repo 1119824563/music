@@ -4,9 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +21,7 @@ import com.example.music.R;
 import com.example.music.manager.NetmusicManager;
 import com.example.music.model.netmusic;
 import com.example.music.ui.RecMusicPlayActivity;
+import com.example.music.utils.Downloader;
 
 import java.util.List;
 
@@ -24,11 +30,17 @@ import static android.os.SystemClock.sleep;
 public class recMusicAdapter extends RecyclerView.Adapter<recMusicAdapter.ViewHolder>{
     private LayoutInflater inflater;
     public Context mContext;
-    boolean love=false;
+    private Handler handler;
+    boolean love=true;
+    boolean c=true;
+    String url=null;
+    String urllrc=null;
 
     public recMusicAdapter(Context mContext, List<netmusic> mnetmusicList){
         this.mContext=mContext;
         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        WorkThread wt=new WorkThread();
+        wt.start();
     }
 
     @Override
@@ -44,7 +56,32 @@ public class recMusicAdapter extends RecyclerView.Adapter<recMusicAdapter.ViewHo
         final netmusic mnetmusic =  NetmusicManager.getInstance().recmusicList.get(position);
         holder.tv_netmusic_name.setText(mnetmusic.getSongname());
         holder.tv_netmusic_singer.setText(mnetmusic.getSingername());
-
+        holder.tv_netmusic_album.setText(mnetmusic.getAlbum());
+        final String name=mnetmusic.getSongname();
+        //下载
+        holder.down.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                NetmusicManager.getInstance().getrecList(position);
+                Toast.makeText(mContext, "正在判断版权获取音乐", Toast.LENGTH_SHORT).show();
+                sleep(3000);
+                url=NetmusicManager.getInstance().musicurl;
+                urllrc=NetmusicManager.getInstance().musiclrc;
+                if(NetmusicManager.getInstance().iftrue){
+                if(url!=null){
+                    Message m=handler.obtainMessage();//获取事件
+                    Bundle b=new Bundle();
+                    b.putString("name",name);//以键值对形式放进 Bundle中
+                    m.setData(b);
+                    handler.sendMessage(m);//把信息放到通道中
+                }else{
+                    Toast.makeText(mContext, "未获取到歌曲url，请再次点击", Toast.LENGTH_SHORT).show();
+                }
+                }else{
+                    Toast.makeText(mContext, "暂无版权，无法下载", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         //列表点击
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -61,7 +98,6 @@ public class recMusicAdapter extends RecyclerView.Adapter<recMusicAdapter.ViewHo
                 }
             }
         });
-
         //长按
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
@@ -72,12 +108,18 @@ public class recMusicAdapter extends RecyclerView.Adapter<recMusicAdapter.ViewHo
                 isExit.setButton("确定",listener);
                 isExit.setButton2("取消", listener);
                 isExit.show();
-                if(love){
-                    netmusic mlovemusic=new netmusic();
-                    mlovemusic.setSongname(mnetmusic.getSongname());
-                    mlovemusic.setSingername(mnetmusic.getSingername());
-                    mlovemusic.setMusicid(mnetmusic.getMusicid());
-                    NetmusicManager.getInstance().lovemusicList.add(mlovemusic);
+                while (love){
+                    if(c){
+                        c=false;
+                        netmusic mlovemusic=new netmusic();
+                        mlovemusic.setSongname(mnetmusic.getSongname());
+                        mlovemusic.setSingername(mnetmusic.getSingername());
+                        mlovemusic.setMusicid(mnetmusic.getMusicid());
+                        mlovemusic.setAlbum(mnetmusic.getAlbum());
+                        NetmusicManager.getInstance().lovemusicList.add(mlovemusic);
+                        break;
+                    }
+                    break;
                 }
                 return true;
             }
@@ -92,7 +134,7 @@ public class recMusicAdapter extends RecyclerView.Adapter<recMusicAdapter.ViewHo
             switch (which)
             {
                 case AlertDialog.BUTTON_POSITIVE:// "确认"按钮退出程序
-                    love=true;
+                    c=true;
                     break;
                 case AlertDialog.BUTTON_NEGATIVE:// "取消"第二个按钮取消对话框
                     break;
@@ -111,11 +153,39 @@ public class recMusicAdapter extends RecyclerView.Adapter<recMusicAdapter.ViewHo
 
         private TextView tv_netmusic_name;
         private TextView tv_netmusic_singer;
+        private TextView tv_netmusic_album;
+        private Button down;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tv_netmusic_name = itemView.findViewById(R.id.tv_netmusic_name);
             tv_netmusic_singer = itemView.findViewById(R.id.tv_netmusic_singer);
+            down=itemView.findViewById(R.id.downmusic);
+            tv_netmusic_album=itemView.findViewById(R.id.tv_netmusic_album);
+        }
+    }
+    //下载
+    class WorkThread extends  Thread{
+        @Override
+        public  void run(){
+            super.run();
+            Looper.prepare();
+            handler=new Handler(){
+                @Override
+                public  void handleMessage(Message m){
+                    super.handleMessage(m);
+                    Bundle b = m.getData();//得到与信息对用的Bundle
+                    String name = b.getString("name");//根据键取值
+                    Downloader http = new Downloader();
+                    String result = http.download(
+                            url, "/music",
+                            name+".mp3");
+                    String resultlrc=http.download(urllrc,"/music",
+                            name+".lrc");
+                    Toast.makeText(mContext, result, Toast.LENGTH_SHORT).show();
+                }
+            };
+            Looper.loop();//Looper循环，通道中有数据执行，无数据堵塞
         }
     }
 }

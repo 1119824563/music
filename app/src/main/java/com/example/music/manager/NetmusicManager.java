@@ -170,7 +170,7 @@ public class NetmusicManager {
         mnetmusicList.get(position).setSongurl(musicurl);
         mnetmusicList.get(position).setMusiclrc(musiclrc);
     }
-    //获取音乐url
+    //获取推荐音乐url
     public void getrecList(int position){
         int musicid=NetmusicManager.getInstance().recmusicList.get(position).getMusicid();//获取对应的音乐id
         //判断是否有版权,有就获取url

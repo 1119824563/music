@@ -31,8 +31,31 @@
             android:layout_height="wrap_content"
             android:text="singer"
             android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tv_netmusic_album"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="album"
+            android:textSize="16sp" />
+
 
     </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="right">
+            <!-- 账号头像 -->
+            <Button
+                android:id="@+id/downmusic"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/downmusic"
+                android:textSize="20sp" />
+        </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

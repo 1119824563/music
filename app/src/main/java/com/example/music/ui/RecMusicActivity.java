@@ -72,6 +72,11 @@ public class RecMusicActivity extends AppCompatActivity {
                 mrecMusicAdapter.notifyDataSetChanged();//更新列表
                 Toast.makeText(this, "音乐已推荐", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.clearall:
+                NetmusicManager.getInstance().recmusicList.clear();
+                mrecMusicAdapter.notifyDataSetChanged();//更新列表
+                Toast.makeText(this, "推荐列表已清空", Toast.LENGTH_SHORT).show();
+                break;
             case R.id.downloadrec://存放到数据库
                 for(int i = 0; i< NetmusicManager.getInstance().recmusicList.size(); i++){
                     int mid=NetmusicManager.getInstance().recmusicList.get(i).getMusicid();

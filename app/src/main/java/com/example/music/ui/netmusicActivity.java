@@ -270,7 +270,7 @@ public class netmusicActivity extends AppCompatActivity {
                        }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Toast.makeText(netmusicActivity.this, "异常，返回重进就好", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(netmusicActivity.this, "获取失败，请再次搜索", Toast.LENGTH_SHORT).show();
                     }
                 }
             };

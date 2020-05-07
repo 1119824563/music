@@ -9,11 +9,15 @@
         app:showAsAction="always"
         tools:ignore="MenuTitle" />
     <item
+        android:id="@+id/clearall"
+        android:icon="@drawable/clear"
+        app:showAsAction="always"
+        tools:ignore="MenuTitle" />
+    <item
         android:id="@+id/downloadrec"
         android:icon="@drawable/down"
         app:showAsAction="always"
         tools:ignore="MenuTitle" />
-
     <item
         android:id="@+id/returnbackrec"
         android:icon="@drawable/back"
