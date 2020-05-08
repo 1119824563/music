@@ -46,7 +46,6 @@
             android:layout_height="60dp"
             android:layout_gravity="center_vertical"
             android:gravity="right">
-            <!-- 账号头像 -->
             <Button
                 android:id="@+id/downmusic"
                 android:layout_width="28dp"

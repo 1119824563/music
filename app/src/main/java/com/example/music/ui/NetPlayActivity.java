@@ -14,6 +14,7 @@ import android.os.Message;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -53,6 +54,7 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView mivplaymodel;
     private ObjectAnimator circleRotateAnim;
     private Handler handler;
+    private Button mshare;
 
     private  int position;
     private Random random;
@@ -79,6 +81,7 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
         mIvNext = findViewById(R.id.iv_next);
         mLlContent = findViewById(R.id.ll_content);
         mivplaymodel=findViewById(R.id.iv_play_model);
+        mshare=findViewById(R.id.share);
 
         mIvPrev.setOnClickListener(this);
         mIvControl.setOnClickListener(this);
@@ -86,6 +89,7 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
         mProfileImage.setOnClickListener(this);
         mivplaymodel.setOnClickListener(this);
         mTvMusicSinger.setOnClickListener(this);
+        mshare.setOnClickListener(this);
 
         //6s 内 旋转一圈 0 - 360°
         circleRotateAnim = ObjectAnimator.ofFloat(mProfileImage, "rotation", 0.0f, 360.0f);
@@ -200,6 +204,16 @@ public class NetPlayActivity extends AppCompatActivity implements View.OnClickLi
     //点击
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.share:
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                //要分享的文本内容
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "一起听歌吧,推荐你听："+NetmusicManager.getInstance().mnetmusicList.get(position).getSongname());
+                //需要使用Intent.createChooser
+                shareIntent = Intent.createChooser(shareIntent, "选择要分享的位置");
+                startActivity(shareIntent);
+                break;
             case R.id.tv_music_singer://歌手界面
                 NetmusicManager.getInstance().singermusicList.clear();
                 NetmusicManager.getInstance().setSingername(NetmusicManager.getInstance().mnetmusicList.get(position).getSingername());
